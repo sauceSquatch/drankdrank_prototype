@@ -1,7 +1,7 @@
 {
-  "name": "Base Project",
+  "name": "drankdrank_prototype",
   "version": "0.1.0",
-  "description": "boilerplate project for quick setup",
+  "description": "motion prototyping",
   "author": "Jamie Naioti",
   "devDependencies": {
     "gulp": "^3.8.8",
