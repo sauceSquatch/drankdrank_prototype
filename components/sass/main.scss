@@ -16,4 +16,13 @@ body {
   background-color: $BG_gray;
   font-family: $bodyFont;
   font-size: 1.4em;
+
+  #main_content {
+    overflow: hidden;
+    width: 334px;
+    height: 650px;
+    #feed {
+      
+    }
+  }
 }

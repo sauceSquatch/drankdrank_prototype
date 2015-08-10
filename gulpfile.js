@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     concat = require('gulp-concat'),
     livereload = require('gulp-livereload'),
+    connect = require('gulp-connect'),
     lr = require('tiny-lr'),
     server = lr();
 
@@ -20,29 +21,36 @@ var jsSources = [
   'components/scripts/*.js'
 ];
 
+gulp.task('connect', function() {
+  connect.server({
+    port:8801,
+    livereload: true
+  });
+});
+
 gulp.task('run_sass', function() {
   gulp.src(sassSources)
     .pipe(sass({style: 'expanded', lineNumbers:true})
       .on('error', gutil.log))
     .pipe(concat('style.css'))
     .pipe(gulp.dest('css'))
-    .pipe(livereload());
-})
+    .pipe(connect.reload());
+});
 
 gulp.task('run_js', function() {
   gulp.src(jsSources)
           .pipe(uglify())
           .pipe(concat('script.js'))
           .pipe(gulp.dest('js'))
+          .pipe(connect.reload());
 });
 
 gulp.task('watch', function() {
-  var server = livereload();
   gulp.watch(sassSources, ['run_sass']);
   gulp.watch(jsSources, ['run_js']);
-  gulp.watch(['js/script.js', 'css/style.css', '*.html'], function(e) {
-    server.changed(e.path);
-  })
-})
+  // gulp.watch(['js/script.js', 'css/style.css', '*.html'], function(e) {
+  //   server.changed(e.path);
+  // })
+});
 
-gulp.task('default', ['run_sass', 'run_js', 'watch']);
+gulp.task('default', ['connect', 'run_sass', 'run_js', 'watch']);
