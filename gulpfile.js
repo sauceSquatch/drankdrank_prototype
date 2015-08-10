@@ -3,10 +3,13 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-ruby-sass'),
     concat = require('gulp-concat'),
-    livereload = require('gulp-livereload'),
     connect = require('gulp-connect'),
     lr = require('tiny-lr'),
     server = lr();
+
+var htmlSources = [
+  '*.html'
+]
 
 var sassSources = [
   'components/sass/*.sass',
@@ -28,6 +31,11 @@ gulp.task('connect', function() {
   });
 });
 
+gulp.task('run_html', function () {
+  gulp.src('./app/*.html')
+    .pipe(connect.reload());
+});
+
 gulp.task('run_sass', function() {
   gulp.src(sassSources)
     .pipe(sass({style: 'expanded', lineNumbers:true})
@@ -46,11 +54,9 @@ gulp.task('run_js', function() {
 });
 
 gulp.task('watch', function() {
+  gulp.watch(htmlSources, ['run_html']);
   gulp.watch(sassSources, ['run_sass']);
   gulp.watch(jsSources, ['run_js']);
-  // gulp.watch(['js/script.js', 'css/style.css', '*.html'], function(e) {
-  //   server.changed(e.path);
-  // })
 });
 
-gulp.task('default', ['connect', 'run_sass', 'run_js', 'watch']);
+gulp.task('default', ['connect', 'watch']);

@@ -19,10 +19,17 @@ body {
 
   #main_content {
     overflow: hidden;
-    width: 334px;
-    height: 650px;
+    width: 100%;
+    height: 100%;
+    @media (min-width: $break_small) {
+      width: 334px;
+      height: 595px;
+    }
     #feed {
       
+    }
+    .feedPost {
+      width: 100%;
     }
   }
 }
